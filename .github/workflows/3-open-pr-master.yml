@@ -6,14 +6,16 @@ on:
       - closed
 
 jobs:
-  criar-pr-master:
+  create-pr-master:
     runs-on: ubuntu-latest
 
     steps:
       - name: Verificar código
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # This guarantees the complete clone with all branches
 
-      - name: Criar PR para Master
+      - name: Create PR for the Master
         run: |
           if [ "${{ github.event.pull_request.base.ref }}" == "develop" ]; then
             git checkout master
