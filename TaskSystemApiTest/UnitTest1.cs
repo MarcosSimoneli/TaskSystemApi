@@ -12,7 +12,8 @@ namespace TaskSystemApiTest
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            int one = 1;
+            Assert.That(one, Is.EqualTo(1).Within(0.0001));
         }
     }
 }
