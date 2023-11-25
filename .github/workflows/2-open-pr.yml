@@ -2,6 +2,10 @@ name: "Create PR"
 on: 
   push:
     branches: [ "feature/*" ]
+  workflow_run:
+    workflows: [".NET Core Desktop"]
+    types:
+      - completed
 
 jobs:
   create-pr-on-push:
