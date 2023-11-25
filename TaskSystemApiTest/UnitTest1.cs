@@ -12,7 +12,7 @@ namespace TaskSystemApiTest
         [Test]
         public void Test1()
         {
-            var one = 1;
+            int one = 1;
             Assert.That(one, Is.EqualTo(1).Within(0.0001));
         }
     }
