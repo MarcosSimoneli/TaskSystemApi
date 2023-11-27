@@ -10,6 +10,10 @@ namespace TaskSystemApi
     {
         public static void Main(string[] args)
         {
+            _ = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: false, reloadOnChange: true);
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
