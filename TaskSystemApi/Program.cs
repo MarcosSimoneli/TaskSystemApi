@@ -1,6 +1,5 @@
 
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using TaskSystemApi.Data;
 using TaskSystemApi.Repository;
 using TaskSystemApi.Repository.Interface;
@@ -12,8 +11,6 @@ namespace TaskSystemApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            _ = new CultureInfo("en-US");
 
             // Add services to the container.
             builder.Services.AddControllers();
