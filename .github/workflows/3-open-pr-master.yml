@@ -1,6 +1,8 @@
 name: Create PR for the master
 
 on:
+  push:
+    branches: [ "develop" ]
   pull_request:
     types:
       - closed
@@ -22,7 +24,7 @@ jobs:
             git pull origin master
             git checkout -b pr-to-master
             git push origin pr-to-master
-            gh pr create --base master --head pr-to-master --title "Merge from develop to master" --body "Automatically generated PR by GitHub Actions."
+            gh pr create --base master --head develop --title "Merge from develop to master" --body "Automatically generated PR by GitHub Actions."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
