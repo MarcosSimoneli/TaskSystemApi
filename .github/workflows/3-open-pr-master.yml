@@ -3,9 +3,6 @@ name: Create PR for the master
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    types:
-      - closed
 
 jobs:
   create-pr-master:
