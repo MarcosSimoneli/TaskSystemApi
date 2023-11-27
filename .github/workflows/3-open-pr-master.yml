@@ -1,8 +1,9 @@
 name: Create PR for the master
 
 on:
-  push:
-    branches: [ "develop" ]
+  pull_request:
+    types:
+      - closed
 
 jobs:
   create-pr-master:
@@ -17,10 +18,8 @@ jobs:
       - name: Create PR for the Master
         run: |
           if [ "${{ github.event.pull_request.base.ref }}" == "develop" ]; then
-            git checkout master
-            git pull origin master
-            git checkout -b pr-to-master
-            git push origin pr-to-master
+            git checkout develop
+            git pull origin develop
             gh pr create --base master --head develop --title "Merge from develop to master" --body "Automatically generated PR by GitHub Actions."
           fi
         env:
