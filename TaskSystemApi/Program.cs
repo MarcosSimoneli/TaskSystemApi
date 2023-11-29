@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using Serilog.Filters;
 using Serilog.Sinks.MSSqlServer;
 using System.Diagnostics;
 using TaskSystemApi.Data;
@@ -42,12 +43,19 @@ namespace TaskSystemApi
                         TableName = "LogEvents"
                     })
                 .MinimumLevel.Information()
+                .Filter.ByExcluding(Matching.FromSource("Microsoft.Hosting.Lifetime"))
+                .Filter.ByExcluding(Matching.FromSource("Microsoft.AspNetCore.Hosting.Diagnostics"))
+                .Filter.ByExcluding(Matching.FromSource("Microsoft.EntityFrameworkCore"))
+                .Filter.ByExcluding(Matching.FromSource("Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor"))
+                .Filter.ByExcluding(Matching.FromSource("Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker"))
                 .CreateLogger();
 
             builder.Services.AddLogging(loggingBuilder =>
             {
                 loggingBuilder.AddSerilog();
             });
+
+            builder.Logging.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name);
 
             var app = builder.Build();
 
