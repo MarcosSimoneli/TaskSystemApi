@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Verificar código
+      - name: Check code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0 # This guarantees the complete clone with all branches
@@ -18,7 +18,6 @@ jobs:
       - name: Create PR for the Master
         run: |
           if [ "${{ github.event.pull_request.base.ref }}" == "develop" ]; then
-            git checkout develop
             git pull origin develop
             gh pr create --base master --head develop --title "Merge from develop to master" --body "Automatically generated PR by GitHub Actions."
           fi
