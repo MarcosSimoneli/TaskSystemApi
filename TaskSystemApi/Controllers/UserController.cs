@@ -29,8 +29,8 @@ namespace TaskSystemApi.Controllers
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<UserModel>>> GetAllUsers()
         {
-            _logger.LogInformation($"{0} Users Found!");
             List<UserModel> users = await _userRepository.GetAll();
+            _logger.LogInformation($"{users.Count} Users Found!");
             return Ok(users);
         }
 
@@ -44,6 +44,7 @@ namespace TaskSystemApi.Controllers
         public async Task<ActionResult<UserModel>> GetUser(int id)
         {
             UserModel user = await _userRepository.GetById(id);
+            _logger.LogInformation($"UserId: {user.Id} was consulted!");
             return Ok(user);
         }
 
@@ -57,6 +58,7 @@ namespace TaskSystemApi.Controllers
         public async Task<ActionResult<UserModel>> AddUser([FromBody] UserModel userRequest)
         {
             UserModel user = await _userRepository.AddUser(userRequest);
+            _logger.LogInformation($"UserId: {user.Id} has been added!");
             return Ok(user);
         }
 
@@ -71,6 +73,7 @@ namespace TaskSystemApi.Controllers
         {
             userRequest.Id = id;
             UserModel user = await _userRepository.UpdateUser(userRequest, userRequest.Id);
+            _logger.LogInformation($"UserId: {user.Id} has been updated!");
             return Ok(user);
         }
 
@@ -84,6 +87,7 @@ namespace TaskSystemApi.Controllers
         public async Task<ActionResult<bool>> DeleteUser(int id)
         {
             bool hasDeleted = await _userRepository.DeleteUser(id);
+            _logger.LogInformation($"UserId: {id} has been deleted!");
             return Ok(hasDeleted);
         }
     }
