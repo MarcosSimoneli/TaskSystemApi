@@ -8,73 +8,73 @@ namespace TaskSystemApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class TaskController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private readonly IUserRepository _userRepository;
+        private readonly ITaskRepository _taskRepository;
 
-        public UserController(ILogger<UserController> logger, IUserRepository userRepository)
+        public TaskController(ILogger<UserController> logger, ITaskRepository taskRepository)
         {
             _logger = logger;
-            _userRepository = userRepository;
+            _taskRepository = taskRepository;
         }
 
 
         [HttpGet]
-        [ProducesResponseType(typeof(ActionResult<List<UserModel>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ActionResult<List<TaskModel>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Forbidden)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<List<UserModel>>> GetAllUsers()
+        public async Task<ActionResult<List<TaskModel>>> GetAllTasks()
         {
-            List<UserModel> users = await _userRepository.GetAll();
-            _logger.LogInformation($"{users.Count} Users Found!");
-            return Ok(users);
+            List<TaskModel> tasks = await _taskRepository.GetAll();
+            _logger.LogInformation($"{tasks.Count} Tasks Found!");
+            return Ok(tasks);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ActionResult<UserModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ActionResult<TaskModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Forbidden)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<UserModel>> GetUser(int id)
+        public async Task<ActionResult<TaskModel>> GetTask(int id)
         {
-            UserModel user = await _userRepository.GetById(id);
-            _logger.LogInformation($"UserId: {user.Id} was consulted!");
-            return Ok(user);
+            TaskModel task = await _taskRepository.GetById(id);
+            _logger.LogInformation($"TaskId: {task.Id} was consulted!");
+            return Ok(task);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ActionResult<UserModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ActionResult<TaskModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Forbidden)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<UserModel>> AddUser([FromBody] UserModel userRequest)
+        public async Task<ActionResult<UserModel>> AddTask([FromBody] TaskModel taskRequest)
         {
-            UserModel user = await _userRepository.AddUser(userRequest);
-            _logger.LogInformation($"UserId: {user.Id} has been added!");
-            return Ok(user);
+            TaskModel task = await _taskRepository.AddTask(taskRequest);
+            _logger.LogInformation($"TaskId: {task.Id} has been added!");
+            return Ok(task);
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ActionResult<UserModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ActionResult<TaskModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Forbidden)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<UserModel>> UpdateUser([FromBody] UserModel userRequest, int id)
+        public async Task<ActionResult<TaskModel>> UpdateTask([FromBody] TaskModel taskRequest, int id)
         {
-            userRequest.Id = id;
-            UserModel user = await _userRepository.UpdateUser(userRequest, userRequest.Id);
-            _logger.LogInformation($"UserId: {user.Id} has been updated!");
-            return Ok(user);
+            taskRequest.Id = id;
+            TaskModel task = await _taskRepository.UpdateTask(taskRequest, taskRequest.Id);
+            _logger.LogInformation($"TaskId: {task.Id} has been updated!");
+            return Ok(task);
         }
 
         [HttpDelete]
@@ -84,10 +84,10 @@ namespace TaskSystemApi.Controllers
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.Forbidden)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorViewModel), (int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<bool>> DeleteUser(int id)
+        public async Task<ActionResult<bool>> DeleteTask(int id)
         {
-            bool hasDeleted = await _userRepository.DeleteUser(id);
-            _logger.LogInformation($"UserId: {id} has been deleted!");
+            bool hasDeleted = await _taskRepository.DeleteTask(id);
+            _logger.LogInformation($"TaskId: {id} has been deleted!");
             return Ok(hasDeleted);
         }
     }
