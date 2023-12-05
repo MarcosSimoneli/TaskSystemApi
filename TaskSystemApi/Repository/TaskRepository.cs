@@ -15,12 +15,16 @@ namespace TaskSystemApi.Repository
         }
         public async Task<List<TaskModel>> GetAll()
         {
-            return await _dBContext.Tasks.ToListAsync();
+            return await _dBContext.Tasks
+                .Include(x => x.User)
+                .ToListAsync();
         }
 
         public async Task<TaskModel> GetById(int id)
         {
-            return await _dBContext.Tasks.FirstOrDefaultAsync(x => x.Id == id) ?? new TaskModel();
+            return await _dBContext.Tasks
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == id) ?? new TaskModel();
         }
 
         public async Task<TaskModel> AddTask(TaskModel task)
@@ -37,10 +41,11 @@ namespace TaskSystemApi.Repository
             NullException.ThrowIfTaskNull(taskById, id);
 
             taskById.Name = task.Name;
+            taskById.Description = task.Description;
             taskById.UserId = task.UserId;
             taskById.User = task.User;
 
-            _dBContext.Update(taskById);
+            _dBContext.Tasks.Update(taskById);
             await _dBContext.SaveChangesAsync();
 
             return taskById;
@@ -51,7 +56,7 @@ namespace TaskSystemApi.Repository
 
             NullException.ThrowIfTaskNull(taskById, id);
 
-            _dBContext.Remove(taskById);
+            _dBContext.Tasks.Remove(taskById);
             await _dBContext.SaveChangesAsync();
 
             return true;
