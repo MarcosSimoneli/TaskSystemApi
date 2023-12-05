@@ -32,6 +32,7 @@ namespace TaskSystemApi
                 );
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo

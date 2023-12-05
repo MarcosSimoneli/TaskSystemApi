@@ -34,13 +34,12 @@ namespace TaskSystemApi.Repository
         {
             UserModel userById = await GetById(id);
 
-            if (userById == null)
-                throw new UserException(id);
+            NullException.ThrowIfUserNull(user, id);
 
             userById.Name = user.Name;
             userById.Email = user.Email;
 
-            _dBContext.Update(userById);
+            _dBContext.Users.Update(userById);
             await _dBContext.SaveChangesAsync();
 
             return userById;
@@ -49,10 +48,9 @@ namespace TaskSystemApi.Repository
         {
             UserModel userById = await GetById(id);
 
-            if (userById == null)
-                throw new UserException(id);
+            NullException.ThrowIfUserNull(userById, id);
 
-            _dBContext.Remove(userById);
+            _dBContext.Users.Remove(userById);
             await _dBContext.SaveChangesAsync();
 
             return true;
