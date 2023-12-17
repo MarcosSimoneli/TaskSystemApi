@@ -91,3 +91,10 @@ The application supports different environments for development and production. 
   ```bash
   ASPNETCORE_ENVIRONMENT=Production
 
+## Testing
+
+The project includes both unit and integration tests to ensure the reliability and functionality of the codebase.
+
+To run the tests, use NUnit and execute the corresponding test commands.
+
+
