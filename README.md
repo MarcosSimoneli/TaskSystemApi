@@ -19,7 +19,7 @@ This project provides a simple and effective way to manage tasks within a team. 
 ## Features
 
 - **Task Management:**
-  - Create tasks with titles, descriptions, and due dates.
+  - Create tasks with titles, descriptions.
   - Assign tasks to specific users.
   - Update task details.
   - Remove tasks.
