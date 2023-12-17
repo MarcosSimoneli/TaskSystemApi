@@ -18,7 +18,7 @@ namespace TaskSystemApi
             _ = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: false, reloadOnChange: true);
-
+            var teste = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -37,7 +37,7 @@ namespace TaskSystemApi
             Log.Logger = new LoggerConfiguration()
                 .WriteTo
                 .MSSqlServer(
-                    connectionString: "Server=SIMONELI;Database=DBTADEV;User Id=usertest;Password=password123;TrustServerCertificate=True;",
+                    connectionString: builder.Configuration.GetConnectionString("DataBase"),
                     sinkOptions: new MSSqlServerSinkOptions
                     {
                         AutoCreateSqlTable = true,
@@ -60,12 +60,10 @@ namespace TaskSystemApi
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
 
             app.UseHttpsRedirection();
 

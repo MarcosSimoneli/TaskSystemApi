@@ -46,14 +46,22 @@ namespace TaskSystemApi.Repository
         }
         public async Task<bool> DeleteUser(int id)
         {
-            UserModel userById = await GetById(id);
+            try
+            {
+                UserModel userById = await GetById(id);
 
-            NullException.ThrowIfUserNull(userById, id);
+                NullException.ThrowIfUserNull(userById, id);
 
-            _dBContext.Users.Remove(userById);
-            await _dBContext.SaveChangesAsync();
+                _dBContext.Users.Remove(userById);
+                await _dBContext.SaveChangesAsync();
 
-            return true;
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
